@@ -152,8 +152,12 @@ processLastItem(['foo', 'bar'], function (str){
 */
 function processSum(numberList, callback) {
   /* CODE HERE */
-  return callback(numberList.reduce());
+  let someVariable = numberList.reduce(function(acc, curVal){
+    return acc + curVal;
+  }, 0);
+  return callback(someVariable);
 }
+console.log(processSum([10,20,30], function (num){return num +1000}));
 
 /**
  * ### Challenge `processProduct`
@@ -288,14 +292,15 @@ function firstNamesAllCaps(runners) {
  * @returns an array containing only the runners that use the given `tShirtSize`.
  * The runners in the array appear in the same order they appear in the `runners` array.
 */
-function getRunnersByTShirtSize(runners, tShirtSize) {
-  
+function getRunnersByTShirtSize(runners, tShirtSize) {  
 
-  let allTshirtSize = runners.filter(function(sizes){
-    return sizes.shirt_size;
+  let allTshirtSizes = runners.filter(function(sizes){
+    return sizes.shirt_size === tShirtSize;
+  
   })
-  return allTshirtSize;    
+  return allTshirtSizes;    
 }
+
 
 /**
  * ### Challenge `tallyUpDonations`
@@ -309,8 +314,9 @@ function getRunnersByTShirtSize(runners, tShirtSize) {
 */
 function tallyUpDonations(runners) {
   /* CODE HERE */
-  let donations = runners.reduce()
+  return runners.reduce((acc, runner) => acc + runner.donation,0)  
 }
+console.log(tallyUpDonations(runners));
 
 /////////////// CLOSURES ///////////////
 /////////////// CLOSURES ///////////////
@@ -329,9 +335,18 @@ function tallyUpDonations(runners) {
  * etc
 */
 function counterMaker() {
-  // BROKEN CODE STARTS
-  }
-  // BROKEN CODE ENDS
+  let count = -1;
+
+    return function counter (){
+     count ++;
+     return count;          
+   }   
+  } 
+
+  const newCounter = counterMaker();
+  console.log (newCounter());
+  console.log (newCounter());
+  console.log (newCounter());
 
 
 /**
@@ -354,9 +369,24 @@ function counterMaker() {
  * counter() // should return 0
  * etc
 */
-function counterMakerWithLimit(/* CODE HERE */) {
+function counterMakerWithLimit(maxValue) {
   /* CODE HERE */
+ let count = -1;
+  return function counter (){
+    if (count === maxValue){    
+    count = -1;
+    }
+    return ++count;
+  }
 }
+
+let anotherCounter = counterMakerWithLimit();
+
+console.log (anotherCounter());
+console.log (anotherCounter());
+console.log (anotherCounter());
+
+
 
 /////////////// END OF CHALLENGE ///////////////
 /////////////// END OF CHALLENGE ///////////////
